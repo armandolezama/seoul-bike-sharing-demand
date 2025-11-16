@@ -402,6 +402,49 @@ def page_calendar():
 
     st.pyplot(fig)
 
+def page_distribution():
+    st.title("Distribución y relaciones básicas")
+
+    st.markdown(
+        "Explora la distribución de las rentas diarias y su relación con la temperatura, "
+        "filtrando por estación del año."
+    )
+
+    # Selector de estación
+    estaciones = ["Todas"] + sorted(daily_df["seasons"].unique().tolist())
+    season_sel = st.selectbox("Estación", estaciones, index=0)
+
+    if season_sel == "Todas":
+        df_plot = daily_df.copy()
+    else:
+        df_plot = daily_df[daily_df["seasons"] == season_sel].copy()
+
+    col1, col2 = st.columns(2)
+
+    # --- Histograma de rentas diarias ---
+    with col1:
+        st.subheader("Histograma de rentas diarias")
+        fig, ax = plt.subplots(figsize=(5, 4))
+        ax.hist(df_plot["daily_rentals"], bins=20, edgecolor="black")
+        ax.set_xlabel("Rentas diarias")
+        ax.set_ylabel("Frecuencia")
+        ax.set_title(f"Distribución de rentas ({season_sel})")
+        st.pyplot(fig)
+
+    # --- Dispersión demanda vs temperatura ---
+    with col2:
+        st.subheader("Rentas vs temperatura media")
+        fig, ax = plt.subplots(figsize=(5, 4))
+        ax.scatter(
+            df_plot["temperature°c"],
+            df_plot["daily_rentals"],
+            alpha=0.4,
+            s=15,
+        )
+        ax.set_xlabel("Temperatura media diaria (°C)")
+        ax.set_ylabel("Rentas diarias")
+        ax.set_title(f"Demanda vs temperatura ({season_sel})")
+        st.pyplot(fig)
 
 def page_prediction_placeholder():
     st.title("Predicción de demanda (futuro)")
@@ -430,6 +473,7 @@ def page_prediction_placeholder():
 PAGES = {
     "Visión general": page_overview,
     "Hora vs estación": page_hour_season,
+    "Distribución y relaciones": page_distribution,
     "Clima": page_climate,
     "Calendario": page_calendar,
     "Predicción (placeholder)": page_prediction_placeholder,
