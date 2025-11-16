@@ -93,3 +93,9 @@ jupyter lab
 3. Navega a `notebooks/analisis.ipynb` y ábrelo.
 
 La notebook asume que el archivo `SeoulBikeData.csv` está en la carpeta raíz del proyecto. Si cambias la ubicación del dataset, actualiza también la ruta en el código de la notebook y de la app de Streamlit.
+
+## Demo en Streamlit
+
+Puedes probar la aplicación en línea aquí:
+
+👉 [Seoul Bike Sharing – Streamlit App](https://seoul-bike-sharing-demand.onrender.com/)
